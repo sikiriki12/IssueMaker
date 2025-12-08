@@ -1,0 +1,6 @@
+This directory should contain extension icons:
+- icon16.png (16x16)
+- icon48.png (48x48)  
+- icon128.png (128x128)
+
+You can create these with any image editor or use an emoji-based icon generator.

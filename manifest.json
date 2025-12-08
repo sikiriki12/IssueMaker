@@ -1,0 +1,59 @@
+{
+    "manifest_version": 3,
+    "name": "IssueMaker",
+    "version": "1.0.0",
+    "description": "Create polished GitHub issues from any web app with AI-powered drafting",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "tabs",
+        "scripting",
+        "contextMenus"
+    ],
+    "host_permissions": [
+        "<all_urls>",
+        "https://api.github.com/*",
+        "https://generativelanguage.googleapis.com/*"
+    ],
+    "background": {
+        "service_worker": "dist/background.js",
+        "type": "module"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "dist/content.js"
+            ],
+            "run_at": "document_start"
+        }
+    ],
+    "action": {
+        "default_popup": "dist/src/popup/index.html",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
+    },
+    "options_ui": {
+        "page": "dist/src/options/index.html",
+        "open_in_tab": true
+    },
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "commands": {
+        "report-issue": {
+            "suggested_key": {
+                "default": "Alt+Shift+I",
+                "mac": "Alt+Shift+I"
+            },
+            "description": "Report an issue with IssueMaker"
+        }
+    }
+}
