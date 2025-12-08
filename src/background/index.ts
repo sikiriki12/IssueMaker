@@ -18,17 +18,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 // Shared function to capture screenshot and open editor
 async function captureAndOpenEditor(tab: chrome.tabs.Tab) {
-    if (!tab.id) return;
+    if (!tab.id || !tab.windowId) {
+        console.error('[IssueMaker] No tab ID or window ID');
+        return;
+    }
 
     try {
-        // Capture screenshot
+        // Capture screenshot - pass the windowId in the payload
         const screenshotResponse = await handleMessage(
-            { type: 'CAPTURE_SCREENSHOT_NOW' },
+            { type: 'CAPTURE_SCREENSHOT_NOW', payload: { windowId: tab.windowId } },
             { tab } as chrome.runtime.MessageSender
         );
 
         if (!screenshotResponse.success) {
-            console.error('[IssueMaker] Screenshot capture failed');
+            console.error('[IssueMaker] Screenshot capture failed:', screenshotResponse.error);
             return;
         }
 
@@ -76,13 +79,23 @@ chrome.runtime.onInstalled.addListener((details) => {
         chrome.runtime.openOptionsPage();
     }
 
-    // Create context menu
-    chrome.contextMenus.create({
-        id: 'issuemaker-report',
-        title: 'Report Issue with IssueMaker',
-        contexts: ['page', 'selection', 'image', 'link']
-    });
+    // Create context menu on install/update
+    createContextMenu();
 });
+
+// Also create context menu when service worker starts (in case it was killed)
+createContextMenu();
+
+// Function to create context menu (handles already existing case)
+function createContextMenu() {
+    chrome.contextMenus.removeAll(() => {
+        chrome.contextMenus.create({
+            id: 'issuemaker-report',
+            title: 'Report Issue with IssueMaker',
+            contexts: ['page', 'selection', 'image', 'link']
+        });
+    });
+}
 
 // Handle context menu click
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
@@ -107,3 +120,4 @@ chrome.action.onClicked.addListener(async (tab) => {
         await captureAndOpenEditor(tab);
     }
 });
+
