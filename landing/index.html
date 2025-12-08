@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IssueMaker - Create GitHub Issues with AI ✨</title>
+    <meta name="description"
+        content="A Chrome extension that makes it incredibly easy to create high-quality GitHub issues from any web app. Features AI-powered issue generation, screenshot annotations, and automatic context capture.">
+    <meta name="keywords" content="GitHub, issues, bug reporting, Chrome extension, AI, screenshot, annotation">
+    <meta property="og:title" content="IssueMaker - Create GitHub Issues with AI">
+    <meta property="og:description"
+        content="Create polished GitHub issues from any web app with AI-powered drafting, screenshot annotations, and automatic context capture.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="../icons/icon48.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <img src="../icons/icon48.png" alt="IssueMaker" class="logo-icon">
+                <span>IssueMaker</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="#installation">Install</a>
+                <a href="https://github.com/sikiriki12/IssueMaker" target="_blank" class="nav-github">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-container">
+            <div class="hero-badge">
+                <span class="badge-icon">🚀</span>
+                <span>Powered by Google Gemini</span>
+            </div>
+            <h1 class="hero-title">
+                Create GitHub Issues<br>
+                <span class="gradient-text">Like a Pro</span>
+            </h1>
+            <p class="hero-description">
+                Stop writing vague bug reports. IssueMaker captures screenshots, logs, and context automatically — then
+                uses AI to craft perfect issues in seconds.
+            </p>
+            <div class="hero-buttons">
+                <a href="#chrome-store-placeholder" class="btn btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <line x1="21.17" y1="8" x2="12" y2="8"></line>
+                        <line x1="3.95" y1="6.06" x2="8.54" y2="14"></line>
+                        <line x1="10.88" y1="21.94" x2="15.46" y2="14"></line>
+                    </svg>
+                    Add to Chrome
+                </a>
+                <a href="#installation" class="btn btn-secondary">
+                    Build from Source
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">10x</span>
+                    <span class="stat-label">Faster Issue Creation</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-value">AI</span>
+                    <span class="stat-label">Powered Drafting</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-value">1-Click</span>
+                    <span class="stat-label">Screenshot Capture</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="browser-mockup">
+                <div class="browser-header">
+                    <div class="browser-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="browser-url">github.com/your-repo/issues/new</div>
+                </div>
+                <div class="browser-content">
+                    <div class="mockup-issue">
+                        <div class="mockup-label bug">🐛 bug</div>
+                        <div class="mockup-label priority">⚡ priority</div>
+                        <h3>Button click handler fails on mobile viewport</h3>
+                        <div class="mockup-meta">
+                            <span>📸 Screenshot attached</span>
+                            <span>📋 Console logs captured</span>
+                            <span>🌐 Environment info included</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Features</span>
+                <h2>Everything You Need for<br><span class="gradient-text">Perfect Bug Reports</span></h2>
+                <p>A complete toolkit designed to save developers hours of documentation work.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card feature-highlight">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Drafting</h3>
+                    <p>Gemini analyzes your screenshot, description, and captured context to generate
+                        well-structured issue titles and bodies with proper formatting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <h3>Screenshot Capture</h3>
+                    <p>One-click screenshot of the current tab. No need to switch to external tools or manually crop
+                        images.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✏️</div>
+                    <h3>Annotation Tools</h3>
+                    <p>Draw arrows, rectangles, add text labels, and blur sensitive information. Full color palette
+                        included.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Context Capture</h3>
+                    <p>Automatically collects console logs, network errors, browser info, and viewport dimensions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏷️</div>
+                    <h3>Smart Labels</h3>
+                    <p>Fetches labels directly from your repository. Select and apply them without leaving the
+                        extension.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Review & Edit</h3>
+                    <p>Preview mode with full Markdown support. Edit and refine the AI-generated content before
+                        publishing.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Quick Access</h3>
+                    <p>Right-click any page or use <kbd>Alt+Shift+I</kbd> to instantly open IssueMaker. No hunting
+                        through menus.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Workflow</span>
+                <h2>From Bug to Issue<br><span class="gradient-text">in 60 Seconds</span></h2>
+                <p>A streamlined workflow that eliminates the friction of bug reporting.</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Spot a Bug</h3>
+                        <p>Found something broken? Right-click the page, use <kbd>Alt+Shift+I</kbd>, or click the
+                            toolbar icon.</p>
+                    </div>
+                    <div class="step-visual">
+                        <div class="step-icon">🐛</div>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Capture & Annotate</h3>
+                        <p>Screenshot is captured automatically. Draw arrows, highlight areas, and add notes.</p>
+                    </div>
+                    <div class="step-visual">
+                        <div class="step-icon">✏️</div>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Describe the Issue</h3>
+                        <p>Add a quick description. Context like console logs and environment info is already captured.
+                        </p>
+                    </div>
+                    <div class="step-visual">
+                        <div class="step-icon">💬</div>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Generate with AI</h3>
+                        <p>Click one button. Gemini analyzes everything and drafts a professional issue.</p>
+                    </div>
+                    <div class="step-visual">
+                        <div class="step-icon">🤖</div>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Review & Submit</h3>
+                        <p>Edit if needed, select labels, and create the issue directly on GitHub.</p>
+                    </div>
+                    <div class="step-visual">
+                        <div class="step-icon">🚀</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="installation">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Get Started</span>
+                <h2>Install in<br><span class="gradient-text">Under a Minute</span></h2>
+                <p>Free and open source. Works with any GitHub repository.</p>
+            </div>
+
+            <!-- Chrome Store Option -->
+            <div class="install-option-primary">
+                <div class="chrome-store-card">
+                    <div class="chrome-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5" />
+                            <circle cx="12" cy="12" r="4" fill="currentColor" />
+                        </svg>
+                    </div>
+                    <div class="chrome-store-content">
+                        <h3>Install from Chrome Web Store</h3>
+                        <p>The easiest way to get IssueMaker — one click and you're ready.</p>
+                    </div>
+                    <a href="#chrome-store-placeholder" class="btn btn-primary btn-large">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Add to Chrome — Free
+                    </a>
+                </div>
+            </div>
+
+            <div class="install-divider">
+                <span>or build from source</span>
+            </div>
+
+            <!-- Build from Source -->
+            <div class="install-steps">
+                <div class="install-card">
+                    <div class="install-number">1</div>
+                    <h3>Clone & Build</h3>
+                    <div class="code-block">
+                        <code>git clone https://github.com/sikiriki12/IssueMaker.git</code>
+                        <code>cd IssueMaker && npm install && npm run build</code>
+                    </div>
+                </div>
+                <div class="install-card">
+                    <div class="install-number">2</div>
+                    <h3>Load in Chrome</h3>
+                    <p>Go to <code>chrome://extensions</code>, enable Developer Mode, click "Load unpacked", and select
+                        the IssueMaker folder.</p>
+                </div>
+                <div class="install-card">
+                    <div class="install-number">3</div>
+                    <h3>Configure</h3>
+                    <p>Add your GitHub token and Gemini API key in the extension options. That's it — you're ready to
+                        go!</p>
+                </div>
+            </div>
+            <div class="cta-box">
+                <h3>Ready to Transform Your Bug Reporting?</h3>
+                <p>Join developers who save hours every week with AI-powered issue creation.</p>
+                <a href="https://github.com/sikiriki12/IssueMaker" target="_blank" class="btn btn-primary btn-large">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                    Get IssueMaker on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="../icons/icon48.png" alt="IssueMaker" class="footer-logo">
+                    <span>IssueMaker</span>
+                </div>
+                <p class="footer-tagline">Create polished GitHub issues with AI-powered drafting.</p>
+                <div class="footer-links">
+                    <a href="https://github.com/sikiriki12/IssueMaker" target="_blank">GitHub</a>
+                    <a href="https://github.com/sikiriki12/IssueMaker/issues" target="_blank">Report Issue</a>
+                    <a href="https://github.com/sikiriki12/IssueMaker/blob/main/LICENSE" target="_blank">MIT
+                        License</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ for developers who hate writing bug reports</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
