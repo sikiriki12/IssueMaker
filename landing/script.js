@@ -90,7 +90,22 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Screenshot tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active from all tabs and panels
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.screenshot-panel').forEach(p => p.classList.remove('active'));
+
+        // Add active to clicked tab and corresponding panel
+        btn.classList.add('active');
+        const tabId = btn.getAttribute('data-tab');
+        document.getElementById(`tab-${tabId}`).classList.add('active');
+    });
+});
+
 // Console Easter Egg
 console.log('%c🐛 IssueMaker', 'font-size: 24px; font-weight: bold;');
 console.log('%cCreate polished GitHub issues with AI-powered drafting!', 'font-size: 14px; color: #8b5cf6;');
-console.log('%cCheck out the source: https://github.com/damirbandalo/IssueMaker', 'font-size: 12px; color: #6b6b7a;');
+console.log('%cCheck out the source: https://github.com/sikiriki12/IssueMaker', 'font-size: 12px; color: #6b6b7a;');
+
