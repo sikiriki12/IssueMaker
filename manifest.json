@@ -11,7 +11,6 @@
         "contextMenus"
     ],
     "host_permissions": [
-        "<all_urls>",
         "https://api.github.com/*",
         "https://generativelanguage.googleapis.com/*"
     ],
@@ -28,6 +27,16 @@
                 "dist/content.js"
             ],
             "run_at": "document_start"
+        },
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "dist/page-script.js"
+            ],
+            "run_at": "document_start",
+            "world": "MAIN"
         }
     ],
     "action": {

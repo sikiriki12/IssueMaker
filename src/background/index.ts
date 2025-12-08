@@ -39,8 +39,14 @@ async function captureAndOpenEditor(tab: chrome.tabs.Tab) {
         let contextData = null;
         try {
             contextData = await chrome.tabs.sendMessage(tab.id, { type: 'GET_PAGE_CONTEXT' });
-        } catch {
+            console.log('[IssueMaker] Context received from content script:', {
+                success: contextData?.success,
+                hasLogs: contextData?.data?.consoleLogs?.length || 0,
+                hasErrors: contextData?.data?.networkErrors?.length || 0
+            });
+        } catch (err) {
             // Content script not available, will use fallback
+            console.warn('[IssueMaker] Could not get context from content script:', err);
         }
 
         // Build context from tab info as fallback
@@ -56,6 +62,12 @@ async function captureAndOpenEditor(tab: chrome.tabs.Tab) {
             consoleLogs: [],
             networkErrors: []
         };
+
+        console.log('[IssueMaker] Final context to store:', {
+            hasLogs: finalContext.consoleLogs?.length || 0,
+            hasErrors: finalContext.networkErrors?.length || 0,
+            env: finalContext.environment?.url
+        });
 
         // Store screenshot and context, then open editor
         await chrome.storage.session.set({
