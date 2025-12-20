@@ -133,7 +133,7 @@ export async function generateIssue(draft: IssueDraft, apiKey: string): Promise<
             systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
             generationConfig: {
                 responseMimeType: 'application/json',
-                temperature: 0.7,
+                temperature: 1.0,
             },
         }),
     });

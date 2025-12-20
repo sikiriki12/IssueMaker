@@ -7,7 +7,7 @@ export const STORAGE_KEYS = {
 } as const;
 
 // API endpoints
-export const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent';
+export const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent';
 export const GITHUB_API_URL = 'https://api.github.com';
 
 // Limits
