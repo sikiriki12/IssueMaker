@@ -21,7 +21,7 @@ export function IssueForm({
     loading,
     error,
 }: Props) {
-    const [showContext, setShowContext] = useState(false);
+    const [showContext, setShowContext] = useState(true);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const formRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);

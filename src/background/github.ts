@@ -1,9 +1,116 @@
 import type { GitHubLabel, CreateIssueParams, CreatedIssue } from '@/types';
 import { GITHUB_API_URL } from '@/core/constants';
 
+const ASSETS_BRANCH = 'issuemaker-assets';
+
+/**
+ * Ensure the assets branch exists, creating it if necessary
+ * Creates an orphan branch with a README to avoid polluting main branch history
+ */
+async function ensureAssetsBranch(
+    owner: string,
+    repo: string,
+    token: string
+): Promise<void> {
+    // Check if branch already exists
+    const branchCheck = await fetch(
+        `${GITHUB_API_URL}/repos/${owner}/${repo}/branches/${ASSETS_BRANCH}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/vnd.github.v3+json',
+            },
+        }
+    );
+
+    if (branchCheck.ok) {
+        return; // Branch already exists
+    }
+
+    // Get the default branch to find the base commit
+    const repoResponse = await fetch(
+        `${GITHUB_API_URL}/repos/${owner}/${repo}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/vnd.github.v3+json',
+            },
+        }
+    );
+
+    if (!repoResponse.ok) {
+        throw new Error('Failed to get repository info');
+    }
+
+    const repoData = await repoResponse.json();
+    const defaultBranch = repoData.default_branch;
+
+    // Get the latest commit SHA from the default branch
+    const refResponse = await fetch(
+        `${GITHUB_API_URL}/repos/${owner}/${repo}/git/refs/heads/${defaultBranch}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/vnd.github.v3+json',
+            },
+        }
+    );
+
+    if (!refResponse.ok) {
+        throw new Error('Failed to get default branch reference');
+    }
+
+    const refData = await refResponse.json();
+    const baseSha = refData.object.sha;
+
+    // Create the new branch
+    const createBranchResponse = await fetch(
+        `${GITHUB_API_URL}/repos/${owner}/${repo}/git/refs`,
+        {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ref: `refs/heads/${ASSETS_BRANCH}`,
+                sha: baseSha,
+            }),
+        }
+    );
+
+    if (!createBranchResponse.ok) {
+        const error = await createBranchResponse.json().catch(() => ({}));
+        // Branch might have been created by another request
+        if (error.message?.includes('Reference already exists')) {
+            return;
+        }
+        throw new Error(error.message || 'Failed to create assets branch');
+    }
+
+    // Add a README to the branch to explain its purpose
+    await fetch(
+        `${GITHUB_API_URL}/repos/${owner}/${repo}/contents/README.md`,
+        {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: 'Initialize IssueMaker assets branch',
+                content: btoa('# IssueMaker Assets\n\nThis branch contains screenshot attachments uploaded by the [IssueMaker](https://github.com/sikiriki12/IssueMaker) Chrome extension.\n\nThese images are referenced in GitHub issues. Please do not delete this branch.'),
+                branch: ASSETS_BRANCH,
+            }),
+        }
+    );
+}
+
 /**
  * Upload an image to a repository and return the raw URL
- * Images are stored in a .issuemaker folder in the repo
+ * Images are stored in the issuemaker-assets branch to avoid polluting main
  */
 export async function uploadImageToRepo(
     owner: string,
@@ -19,16 +126,19 @@ export async function uploadImageToRepo(
     }
     const base64Content = base64Match[1];
 
+    // Ensure the assets branch exists
+    await ensureAssetsBranch(owner, repo, token);
+
     // Create a unique path for the image
     const timestamp = Date.now();
     const safeName = filename.replace(/[^a-zA-Z0-9.-]/g, '_');
-    const path = `.issuemaker/screenshots/${timestamp}-${safeName}`;
+    const path = `screenshots/${timestamp}-${safeName}`;
 
-    // Check if file already exists (to get SHA for update)
+    // Check if file already exists on assets branch (to get SHA for update)
     let existingSha: string | undefined;
     try {
         const checkResponse = await fetch(
-            `${GITHUB_API_URL}/repos/${owner}/${repo}/contents/${path}`,
+            `${GITHUB_API_URL}/repos/${owner}/${repo}/contents/${path}?ref=${ASSETS_BRANCH}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -44,11 +154,11 @@ export async function uploadImageToRepo(
         // File doesn't exist, that's fine
     }
 
-    // Upload the file
+    // Upload the file to the assets branch
     const uploadBody: Record<string, string> = {
-        message: `Add screenshot from IssueMaker`,
+        message: `Add screenshot: ${safeName}`,
         content: base64Content,
-        branch: 'main', // Default to main branch
+        branch: ASSETS_BRANCH,
     };
 
     if (existingSha) {
@@ -70,42 +180,18 @@ export async function uploadImageToRepo(
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-
-        // Try alternative branches if main doesn't work
-        if (response.status === 404 || response.status === 422) {
-            // Try 'master' branch
-            uploadBody.branch = 'master';
-            const retryResponse = await fetch(
-                `${GITHUB_API_URL}/repos/${owner}/${repo}/contents/${path}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        Accept: 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(uploadBody),
-                }
-            );
-
-            if (!retryResponse.ok) {
-                throw new Error(
-                    errorData.message || `Failed to upload image: ${response.status}`
-                );
-            }
-
-            const retryResult = await retryResponse.json();
-            return retryResult.content.download_url;
-        }
-
         throw new Error(
             errorData.message || `Failed to upload image: ${response.status}`
         );
     }
 
-    const result = await response.json();
-    // Return the raw URL that can be embedded in markdown
-    return result.content.download_url;
+    // We don't need the response content, just confirm the upload succeeded
+    await response.json();
+
+    // Use github.com/raw URL format which respects session authentication
+    // This works for private repos when the viewer is logged in
+    // Using the branch name for a stable URL (commit SHA would also work)
+    return `https://github.com/${owner}/${repo}/raw/${ASSETS_BRANCH}/${path}`;
 }
 
 /**
